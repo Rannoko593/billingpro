@@ -1,0 +1,48 @@
+WASCO Distributed Database Model: Highlands vs Lowlands
+
+This version changes the database purpose from simple mirroring to geographic distribution.
+
+DATABASE RESPONSIBILITIES
+1. PostgreSQL = Lowlands database
+   Districts stored here:
+   - Maseru
+   - Leribe
+   - Berea
+   - Mafeteng
+   - Mohale's Hoek
+   - Quthing
+
+2. MySQL/XAMPP = Highlands database
+   Districts stored here:
+   - Thaba-Tseka
+   - Mokhotlong
+   - Qacha's Nek
+   - Butha-Buthe
+
+HOW IT WORKS
+- When a user/customer is registered, the backend checks the district.
+- If the district is Highlands, the customer is saved in MySQL.
+- If the district is Lowlands, the customer is saved in PostgreSQL.
+- Login checks both databases, so Highlands and Lowlands users can still log in from the same interface.
+- Bills, usage summaries, payment history, and customer bill lists read from the correct database based on the account number.
+
+TESTING
+1. Register a customer with district = Maseru.
+   Check PostgreSQL:
+   SELECT * FROM customers;
+
+2. Register a customer with district = Mokhotlong.
+   Check MySQL/XAMPP:
+   USE wasco_logs;
+   SELECT * FROM customers;
+
+3. Generate bills for each account number.
+   Lowlands customer bills appear in PostgreSQL bills.
+   Highlands customer bills appear in MySQL bills.
+
+IMPORTANT
+Run both schema files before testing:
+- server/sql/postgres_schema.sql in pgAdmin/PostgreSQL
+- server/sql/mysql_schema.sql in phpMyAdmin/MySQL
+
+For admin login, keep Rannoko in PostgreSQL as a Lowlands administrator.

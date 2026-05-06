@@ -1,0 +1,36 @@
+WASCO PayPal Sandbox Setup
+==========================
+
+1) In PayPal Developer, regenerate the secret you pasted publicly.
+2) Open server/.env and replace:
+   PAYPAL_CLIENT_ID=your_paypal_sandbox_client_id
+   PAYPAL_CLIENT_SECRET=your_paypal_sandbox_client_secret
+   PAYPAL_MODE=sandbox
+   PAYPAL_CURRENCY=USD
+   PAYPAL_EXCHANGE_RATE=1
+
+3) Run MySQL schema in phpMyAdmin:
+   server/sql/mysql_schema.sql
+
+4) Start backend:
+   cd server
+   npm install
+   npm start
+
+5) Start frontend:
+   cd client
+   npm install
+   npm run dev
+
+PayPal flow:
+- Customer opens My Bills
+- Click Pay Now
+- Payment method defaults to PayPal
+- PayPal sandbox button appears
+- Login with PayPal Sandbox Personal buyer account
+- After PayPal approves and captures, the bill is marked paid and payment_history is created.
+
+Notes:
+- Do not push server/.env to GitHub.
+- Sandbox uses fake money.
+- For real live money, change PAYPAL_MODE=live and use live PayPal app credentials.
